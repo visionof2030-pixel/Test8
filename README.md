@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -137,29 +137,16 @@ textarea {
     padding: 0; 
     margin: 0;
     font-size: 10px;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
   }
-  .tool { 
-    display: none !important; 
-  }
+  .tool { display: none; }
   .report { 
-    display: block !important; 
+    display: block; 
     width: 100%;
-    max-width: 210mm;
-    min-height: 297mm;
-    margin: 0 auto;
-    padding: 10mm;
-    box-sizing: border-box;
-    page-break-after: auto;
+    margin: 0;
+    padding: 0;
   }
-  
-  /* إصلاح مشكلة الطباعة في Firefox */
-  @-moz-document url-prefix() {
-    .report {
-      display: block !important;
-      visibility: visible !important;
-    }
+  .page-break-protection {
+    page-break-inside: avoid;
   }
 }
 
@@ -355,7 +342,6 @@ textarea {
   grid-template-columns: 1fr 1fr;
   gap: 15px;
   margin: 15px 0;
-  page-break-inside: avoid;
 }
 .images img {
   width: 100%;
@@ -371,7 +357,6 @@ textarea {
   display: flex;
   justify-content: space-between;
   font-size: 8pt;
-  page-break-inside: avoid;
 }
 .teacher-signature, .principal-signature {
   text-align: center;
@@ -398,14 +383,23 @@ textarea {
     display: none !important;
   }
   
-  /* إصلاح لجميع المتصفحات */
-  .report * {
-    visibility: visible !important;
+  /* إصلاح الطباعة */
+  @page {
+    size: A4;
+    margin: 15mm;
+  }
+  
+  body * {
+    visibility: hidden;
+  }
+  .report, .report * {
+    visibility: visible;
   }
   .report {
-    visibility: visible !important;
-    opacity: 1 !important;
-    display: block !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
   }
 }
 
@@ -432,10 +426,14 @@ textarea {
   }
 }
 
-/* إصلاح خاص للطباعة */
-@page {
-  size: A4;
-  margin: 10mm;
+/* إصلاح الطباعة */
+@media print {
+  .report {
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+  }
 }
 </style>
 </head>
@@ -616,13 +614,13 @@ textarea {
 </div>
 
 <div class="buttons-container">
-  <button id="printBtn" onclick="generatePrint()">🖨️ طباعة التقرير</button>
+  <button id="printBtn" onclick="printReport()">🖨️ طباعة التقرير</button>
   <button id="saveBtn" onclick="saveReport()">💾 حفظ التقرير</button>
 </div>
 </div>
 
 <!-- قسم التقرير للطباعة -->
-<div class="report page-break-protection" id="reportContent">
+<div class="report" id="reportContent">
 <div class="header page-break-protection">
   <div class="header-content">
     <div class="ministry-title">وزارة التعليم</div>
@@ -1048,8 +1046,8 @@ function saveReport() {
   alert("تم حفظ التقرير بنجاح!\n\nملاحظة: هذه ميزة تجريبية، في النسخة النهائية سيتم حفظ التقرير في قاعدة البيانات.");
 }
 
-// دالة محسنة للطباعة
-function generatePrint() {
+// دالة الطباعة المحسنة
+function printReport() {
   // التحقق من وجود بيانات أساسية
   const reportTitle = document.getElementById('reportTitle').textContent;
   if (!reportTitle || reportTitle === '') {
@@ -1057,16 +1055,16 @@ function generatePrint() {
     return;
   }
   
-  // عرض التقرير قبل الطباعة
-  const reportElement = document.querySelector('.report');
+  // إظهار التقرير قبل الطباعة
+  const reportElement = document.getElementById('reportContent');
   if (reportElement) {
     reportElement.style.display = 'block';
     
-    // تأخير بسيط لضمان عرض المحتوى قبل الطباعة
+    // استخدام setTimeout لضمان عرض التقرير قبل الطباعة
     setTimeout(() => {
       window.print();
       
-      // إعادة إخفاء التقرير بعد الطباعة
+      // إخفاء التقرير بعد الطباعة
       setTimeout(() => {
         reportElement.style.display = 'none';
       }, 100);
@@ -1095,9 +1093,9 @@ window.onload = async function() {
   document.querySelector('input[placeholder="تاريخ التقرير"]').value = dateStr;
   sync('reportDate', dateStr);
   
-  // إعداد الطباعة المحسنة
+  // إعداد معالجة الطباعة
   window.addEventListener('afterprint', function() {
-    document.querySelector('.report').style.display = 'none';
+    document.getElementById('reportContent').style.display = 'none';
   });
 };
 </script>
