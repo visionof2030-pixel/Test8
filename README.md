@@ -68,10 +68,11 @@ body{
 /* مربعات المعلومات */
 .info-grid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(5,1fr); /* تم التعديل إلى 5 أعمدة */
   gap:6px;
   margin-bottom:6px;
 }
+
 .info-grid2{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -213,19 +214,37 @@ body{
   <div class="header-date">1447 هـ<br>2026 م</div>
 </div>
 
+<!-- الحقول العليا الجديدة -->
 <div class="info-grid">
-  <div class="info-box"><div class="info-title">الفصل الدراسي</div><div class="info-value">الأول</div></div>
-  <div class="info-box"><div class="info-title">اسم التقرير</div><div class="info-value">تقرير إداري</div></div>
-  <div class="info-box"><div class="info-title">المجال</div><div class="info-value">تربوي</div></div>
-  <div class="info-box"><div class="info-title">المستهدفون</div><div class="info-value">المعلمين</div></div>
+  <div class="info-box">
+    <div class="info-title">الفصل الدراسي</div>
+    <div class="info-value">الأول</div>
+  </div>
+  <div class="info-box">
+    <div class="info-title">المجال</div>
+    <div class="info-value">تربوي</div>
+  </div>
+  <div class="info-box">
+    <div class="info-title">مكان التنفيذ</div>
+    <div class="info-value">داخل المدرسة</div>
+  </div>
+  <div class="info-box">
+    <div class="info-title">المستهدفون</div>
+    <div class="info-value">المعلمين</div>
+  </div>
+  <div class="info-box">
+    <div class="info-title">العدد</div>
+    <div class="info-value">25</div>
+  </div>
 </div>
 
 <div class="info-grid2">
   <div class="info-box"><div class="info-title">المبادرة</div><div class="info-value">تهيئة الطلاب</div></div>
-  <div class="info-box"><div class="info-title">مكان التنفيذ</div><div class="info-value">داخل المدرسة</div></div>
+  <div class="info-box"><div class="info-title">اسم التقرير</div><div class="info-value">تقرير إداري</div></div>
   <div class="info-box"><div class="info-title">مدة التنفيذ</div><div class="info-value">يوم واحد</div></div>
 </div>
 
+<!-- باقي التقرير كما هو -->
 <div class="box-objective">
   <div class="box-title">الأهداف</div>
   <div class="box-content"></div>
